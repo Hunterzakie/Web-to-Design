@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fish Audio Voice — Emotional AI Voice from Text</title>
+<meta name="description" content="Create emotional AI voiceovers from text using the Fish Audio TTS API.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="page">
+  <header class="header">
+    <div class="brand">
+      <span class="mark" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21"></polygon></svg>
+      </span>
+      <div>
+        <h1>Fish Audio Voice</h1>
+        <p class="sub">Turn text into emotional AI voiceovers using the Fish Audio TTS API.</p>
+      </div>
+    </div>
+    <p class="status" id="status" aria-live="polite" aria-atomic="true"></p>
+  </header>
+
+  <form id="ttsForm" class="form" novalidate>
+    <div class="field">
+      <label for="text">What should it say?</label>
+      <textarea id="text" name="text" rows="6" required
+        placeholder="e.g. Welcome to the future. This voice was made just for you."></textarea>
+      <span class="helper">Keep it under a few paragraphs for the best results. You can add emotion tags like [happy] or [whispering] inline.</span>
+      <span class="count" id="count">0 chars</span>
+      <span id="textError" class="error" role="alert"></span>
+    </div>
+
+    <div class="controls-row">
+      <div class="controls-side controls-voice">
+        <div class="field">
+          <label for="voice">Voice</label>
+          <input type="text" id="voice" name="reference_id" placeholder="Voice ID (optional)">
+          <span class="helper">Voice ID (optional)</span>
+        </div>
+      </div>
+      <div class="controls-emotions">
+        <div class="field">
+          <label>Emotion</label>
+          <div class="emotion-group" role="radiogroup" aria-label="Emotion">
+            <button type="button" class="emotion-btn" data-emotion="" aria-pressed="true">None</button>
+            <button type="button" class="emotion-btn" data-emotion="happy" aria-pressed="false">Happy</button>
+            <button type="button" class="emotion-btn" data-emotion="sad" aria-pressed="false">Sad</button>
+            <button type="button" class="emotion-btn" data-emotion="angry" aria-pressed="false">Angry</button>
+            <button type="button" class="emotion-btn" data-emotion="excited" aria-pressed="false">Excited</button>
+            <button type="button" class="emotion-btn" data-emotion="whispering" aria-pressed="false">Whispering</button>
+            <button type="button" class="emotion-btn" data-emotion="calm" aria-pressed="false">Calm</button>
+            <button type="button" class="emotion-btn" data-emotion="loving" aria-pressed="false">Loving</button>
+            <button type="button" class="emotion-btn" data-emotion="fearful" aria-pressed="false">Fearful</button>
+            <button type="button" class="emotion-btn" data-emotion="surprised" aria-pressed="false">Surprised</button>
+            <button type="button" class="emotion-btn" data-emotion="disgusted" aria-pressed="false">Disgusted</button>
+            <button type="button" class="emotion-btn" data-emotion="tired" aria-pressed="false">Tired</button>
+            <button type="button" class="emotion-btn" data-emotion="confident" aria-pressed="false">Confident</button>
+            <button type="button" class="emotion-btn" data-emotion="mysterious" aria-pressed="false">Mysterious</button>
+            <button type="button" class="emotion-btn" data-emotion="storytelling" aria-pressed="false">Storytelling</button>
+            <button type="button" class="emotion-btn" data-emotion="shouting" aria-pressed="false">Shouting</button>
+          </div>
+          <span class="helper">Click an emotion to insert its tag into your text at the cursor.</span>
+        </div>
+      </div>
+      <div class="controls-side controls-format">
+        <div class="field">
+          <label for="format">Format</label>
+          <select id="format" name="format">
+            <option value="mp3">MP3</option>
+            <option value="wav">WAV</option>
+            <option value="flac">FLAC</option>
+            <option value="opus">OPUS</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" id="generateBtn" class="btn btn-primary">
+      <span class="btn-label">Generate voice</span>
+      <span class="spinner" aria-hidden="true"></span>
+    </button>
+  </form>
+
+  <section class="output" id="output" hidden>
+    <div class="output-header">
+      <h2 id="outputTitle">Your voiceover</h2>
+      <a id="downloadLink" class="btn btn-outline" download>Download</a>
+    </div>
+    <div class="player-wrap">
+      <audio id="audio" preload="none"></audio>
+      <div class="player-controls">
+        <button id="playPauseBtn" class="btn play-pause" aria-label="Play/Pause" title="Play/Pause">
+          <svg id="playIcon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21"></polygon></svg>
+          <svg id="pauseIcon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+        </button>
+        <span id="timeDisplay" class="time-display">0:00 / 0:00</span>
+      </div>
+    </div>
+    <p class="muted-note" id="audioNote">Audio generated by Fish Audio TTS.</p>
+  </section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
